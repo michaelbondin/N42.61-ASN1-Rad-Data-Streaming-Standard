@@ -1,0 +1,22 @@
+-- Example instrument status packet for an instrument with 1 gamma spectroscopic detector
+-- with radionuclide identification (RIID), abbreviated "SGRIID" or "sgRIID".
+-- Packet quantities populated with arbitrary data for illustration.
+-- Instrument transmits counts, count rate, exposure rate, gamma spectrum,
+-- and radionuclide identification and radionuclide confidence level.
+-- Instrument Status packet includes optional battery status, detector voltage,
+-- and detector temperature.
+-- Identified radionuclides are denoted using 2 fields (bytes).
+-- The first field (byte) identifies the element (Z), which ranges from 1 to 98.
+-- The second field (byte) identifies the atomic mass (A), which ranges from 1
+-- to 255. A detailed table is included in the standard.
+
+sgRIIDInstrumentStatus InstrumentStatus ::= {
+	packetNumber 2,
+	relativeTime 1.05,
+	batteryStatus 75,
+	detectorStatusList {{detectorID 0, detectorVoltage 1500,
+						   detectorTemperature 22.7}
+	}
+}
+
+PacketType status ::= sgRIIDInstrumentStatus

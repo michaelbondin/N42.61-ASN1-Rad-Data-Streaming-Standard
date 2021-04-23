@@ -1,0 +1,11 @@
+-- Example radiation data packet for an instrument with 2 detectors,1 gross
+-- alpha counts and 1 gross beta counts, abbreviated "AB".
+-- Packet quantities populated with arbitrary data for illustration.
+-- Instrument transmits counts and count rate.
+
+grossABfooter Footer ::= {
+  relativeTime 180, -- 3 minutes
+  timeStamp "20210201123315.0" -- 12:33:15 February 1 2021
+}
+
+PacketType footerpacket ::= grossABfooter

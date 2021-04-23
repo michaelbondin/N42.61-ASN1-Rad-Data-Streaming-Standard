@@ -1,0 +1,20 @@
+-- Example instrument status packet for an instrument with 2 detectors, 1 gross
+-- gamma counts and 1 gross neutron counts, abbreviated "GN".
+-- Packet quantities populated with arbitrary data for illustration.
+-- Instrument transmits counts, count rate, and exposure rate.
+-- Instrument Status packet includes optional instrument temperature,
+-- battery status, detector voltage, and detector temperature.
+
+grossGNInstrumentStatus InstrumentStatus ::= {
+  packetNumber 2,
+  relativeTime 1.05,
+  instrumentTemperature 22.7,
+  batteryStatus 75,
+  detectorStatusList {{detectorID 0, detectorVoltage 1500,
+                       detectorTemperature 32},
+                      {detectorID 1, detectorVoltage 1900,
+                       detectorTemperature 31}
+  }
+}
+
+PacketType status ::= grossGNInstrumentStatus

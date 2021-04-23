@@ -1,0 +1,21 @@
+-- Example header packet for an instrument with 2 detectors, 1 gross gamma
+-- counts and 1 gross neutron counts, abbreviated "GN".
+-- Packet quantities populated with arbitrary data for illustration.
+-- Instrument transmits, counts, count rate, and exposure rate.
+-- Header packet includes optional exposure coefficient.
+
+grossGNHeader Header ::= {
+    instrumentName "Sample Gross Gamma-Neutron Counts Detector",
+    instrumentManufacturer "ANSI",
+    instrumentModel "Basic Gamma-Neutron 1.00",
+    instrumentSerial "GGN-00000001",
+    timeStampZero "20210201123015.0", -- 12:30:15 February 1 2021
+    relativeTime 1,
+    numDetectors 2,
+    detectorHeaderList {{detectorID 0, detectorType 0, exposureCoeff 7.5},
+                        {detectorID 1, detectorType 1}
+    }
+}
+
+
+PacketType headerpacket ::= grossGNHeader

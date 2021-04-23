@@ -1,0 +1,11 @@
+-- Example radiation data packet for an instrument with 2 detectors,1 gross
+-- gamma counts and 1 gross neutron counts, abbreviated "GN".
+-- Packet quantities populated with arbitrary data for illustration.
+-- Instrument transmits counts, count rate, and exposure rate.
+
+grossGNfooter Footer ::= {
+  relativeTime 180, -- 3 minutes
+  timeStamp "20210201123315.0" -- 12:33:15 February 1 2021
+}
+
+PacketType footerpacket ::= grossGNfooter

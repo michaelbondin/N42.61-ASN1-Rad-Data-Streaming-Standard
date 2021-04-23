@@ -1,0 +1,17 @@
+-- Example footer packet for an instrument with 1 gamma spectroscopic
+-- detector with radionuclide identification (RIID), abbreviated "SGRIID" or
+-- "sgRIID".
+-- Packet quantities populated with arbitrary data for illustration.
+-- Instrument transmits counts, count rate, exposure rate, gamma spectrum,
+-- and radionuclide identification and radionuclide confidence level.
+-- Identified radionuclides are denoted using 2 fields (bytes).
+-- The first field (byte) identifies the element (Z), which ranges from 1 to 98.
+-- The second field (byte) identifies the atomic mass (A), which ranges from 1
+-- to 255. A detailed table is included in the standard.
+
+sgRIIDFooter Footer ::= {
+  relativeTime 180, -- 3 minutes
+  timeStamp "20210201123315.0" -- 12:33:15PM February 1 2021
+}
+
+PacketType footerpacket ::= sgRIIDFooter

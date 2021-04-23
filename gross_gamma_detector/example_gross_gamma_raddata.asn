@@ -1,0 +1,17 @@
+-- Example radiation data packet for a simple gross gamma counts instrument
+-- with 1 detector.
+-- Packet quantities populated with arbitrary data for illustration.
+-- Instrument tranmits counts, count rate, and exposure rate.
+-- Radiation data packet includes optional count rate and exposure rate.
+
+grossGammaRadData RadiationData ::= {
+  packetNumber 3,
+  relativeTime 2.10,
+  accumulationTime 1.0,
+  detectorRadDataList {{detectorID 0,
+                        counts 1500,
+                        countRate 750.0,
+                        exposureRate 7.5},
+}
+
+PacketType data ::= grossGammaRadData

@@ -1,0 +1,40 @@
+-- Example header packet for an instrument with 1 gamma spectroscopic detector
+-- with radionuclide identification (RIID), abbreviated "SGRIID" or "sgRIID".
+-- Packet quantities populated with arbitrary data for illustration.
+-- Instrument transmits counts, count rate, exposure rate, gamma spectrum,
+-- and radionuclide identification and radionuclide confidence level.
+-- Header packet includes optional MCA channels, exposure coefficient,
+-- calibration temperatures, and energy calibration.
+-- Identified radionuclides are denoted using 2 fields (bytes).
+-- The first field (byte) identifies the element (Z), which ranges from 1 to 98.
+-- The second field (byte) identifies the atomic mass (A), which ranges from 1
+-- to 255. A detailed table is included in the standard.
+
+
+sgRIIDHeader Header ::= {
+    instrumentName "Example SG-RIID Detector",
+    instrumentManufacturer "ANSI",
+    instrumentModel "SG RIID 1.00",
+    instrumentSerial "SGRIID-00000001",
+    timeStampZero "20210201123015.0", -- 12:30:15 February 1 2021
+    relativeTime 1,
+    numDetectors 1,
+    mcaChannels 256,
+    detectorHeaderList {
+                        {detectorID 0,
+                        detectorType 3,
+                        exposureCoeff 7.5,
+                        energyCalibration {calibrationValues {
+                                     {channel 45, energy 59.5}, -- 241Am at 20C
+                                     {channel 605, energy 661.6}, -- 137Cs at 20C
+                                     {channel 1310, energy 1331}}, -- 60Co at 20C
+                                    calibrationValues {
+                                     {channel 65, energy 59.5}, -- 241Am at 40C
+                                     {channel 651, energy 661.6}, -- 137Cs at 40C
+                                     {channel 1330, energy 1331}} -- 60Co at 40C
+                                   }
+                }
+    }
+}
+
+PacketType headerpacket ::= sampleheader

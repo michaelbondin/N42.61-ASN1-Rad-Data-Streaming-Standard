@@ -1,0 +1,15 @@
+-- Example instrument status packet for a simple gross gamma counts
+-- instrument with 1 detector.
+-- Packet quantities populated with arbitrary data for illustration.
+-- Instrument transmits counts, count rate, and exposure rate.
+-- Instrument Status packet includes optional battery status,
+-- and detector temperature.
+
+grossGammaInstrumentStatus InstrumentStatus ::= {
+  packetNumber 2,
+  relativeTime 1.05,
+  batteryStatus 75,
+  detectorStatusList {{detectorID 0, detectorTemperature 22.7}}
+}
+
+PacketType status ::= grossGammaInstrumentStatus

@@ -1,0 +1,33 @@
+-- Example radiation data packet for an instrument with 1 gamma spectroscopic
+-- detector with radionuclide identification (RIID), abbreviated "SGRIID" or
+-- "sgRIID".
+-- Packet quantities populated with Co-60 measured with a ___ detector for ___ -- seconds for illustration.
+-- Instrument transmits counts, count rate, exposure rate, gamma spectrum,
+-- and radionuclide identification and radionuclide confidence level.
+-- Radiation data packet includes optional count rate, exposure rate, gamma 
+-- spectrum,
+-- radionuclide ID, and radioniclide ID confidence.
+-- Identified radionuclides are denoted using 2 fields (bytes).
+-- The first field (byte) identifies the element (Z), which ranges from 1 to 
+-- 98.
+-- The second field (byte) identifies the atomic mass (A), which ranges from 1
+-- to 255. A detailed table is included in the standard.
+
+
+sgRIIDRadData RadiationData ::= {
+  packetNumber 3,
+  relativeTime 3.10,
+  accumulationTime 2.0,
+  detectorRadDataList {
+                       {detectorID 0,
+                        counts 415,
+                        countRate 207.5,
+                        exposureRate 7.5,
+                        gammaSpectrum {0, 1, 6, 11, 9, 4, 11, 4, 5, 3, 8, 8, 4, 6, 7, 10, 5, 6, 11, 6, 4, 8, 2, 6, 16, 7, 8, 4, 4, 4, 4, 1, 7, 5, 6, 5, 2, 2, 4, 2, 1, 0, 3, 3, 3, 1, 1, 1, 0, 4, 2, 0, 1, 4, 5, 2, 1, 1, 0, 1, 1, 1, 3, 1, 3, 1, 0, 0, 1, 1, 2, 1, 1, 0, 2, 0, 1, 0, 1, 1, 0, 0, 1, 0, 3, 0, 1, 1, 0, 0, 0, 1, 2, 0, 1, 0, 1, 0, 1, 0, 3, 2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 2, 1, 0, 0, 0, 0, 1, 2, 1, 1, 0, 2, 1, 0, 1, 1, 4, 3, 0, 2, 0, 1, 0, 1, 4, 0, 1, 2, 1, 2, 3, 1, 1, 1, 2, 2, 1, 0, 0, 0, 1, 1, 0, 0, 1, 0, 5, 0, 1, 0, 1, 1, 1, 0, 0, 2, 1, 1, 1, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 17, 4, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 3, 12, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+
+                        radionuclideID {{z 27, a 60}},  -- 60Co   
+                        radionuclideConf {80},
+  }
+}
+
+PacketType data ::= sgRIIDRadData

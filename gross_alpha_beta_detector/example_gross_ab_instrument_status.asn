@@ -1,0 +1,20 @@
+-- Example instrument status packet for an instrument with 2 detectors, 1 gross
+-- alpha counts and 1 gross beta counts, abbreviated "AB".
+-- Packet quantities populated with arbitrary data for illustration.
+-- Instrument transmits counts and count rate.
+-- Instrument Status packet includes optional instrument temperature,
+-- battery status, detector voltage, and detector temperature.
+
+grossABInstrumentStatus InstrumentStatus ::= {
+  packetNumber 2,
+  relativeTime 1.05,
+  instrumentTemperature 22.7,
+  batteryStatus 75,
+  detectorStatusList {{detectorID 0, detectorVoltage 1500,
+                       detectorTemperature 32},
+                      {detectorID 1, detectorVoltage 1900,
+                       detectorTemperature 31}
+  }
+}
+
+PacketType status ::= grossABInstrumentStatus

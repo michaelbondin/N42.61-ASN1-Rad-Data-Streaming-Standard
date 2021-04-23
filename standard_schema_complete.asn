@@ -1,0 +1,166 @@
+-- Edited 03/25/2021 --
+-- Complete ASN.1 Schema for ANSI N42.61: Wireless Radiation Data Streaming Standard --
+-- BEGIN --
+PacketType ::= CHOICE
+	{
+	headerpacket Header,
+	status InstrumentStatus,
+	data RadiationData,
+	footerpacket Footer,
+	...}
+
+-- Begin Header --
+
+-- Begin CalibrationSet data object definition --
+CalibrationSet ::= SEQUENCE {
+	channel REAL,
+	energy REAL,
+	...
+}
+-- End CalibrationSet data object definition --
+
+-- Begin DetectorHeader data object definition --
+DetectorHeader ::= SEQUENCE {
+	detectorID INTEGER,
+	detectorType ENUMERATED
+		{
+		gammaGrossCount					(0),
+		neutronGrossCount				(1),
+		gammaSpectroscopic				(2),
+		gammaSpectroscopicRIID			(3),
+		alphaGrossCount					(4),
+		betaGrossCount					(5),
+		...
+		},
+	detectorName VisibleString,
+	detectorManufacturer VisibleString,
+	detectorModel VisibleString,
+	detectorSerial VisibleString,
+	detectorFirmware VisibleString OPTIONAL,
+	detectorSoftware VisibleString OPTIONAL,
+	detectorFirmwareVersion VisibleString OPTIONAL,
+	detectorSoftwareVersion VisibleString OPTIONAL,
+	detectortDescription1 VisibleString OPTIONAL,
+	detectortDescription2 VisibleString OPTIONAL,
+	ambientGammaCoeff REAL OPTIONAL,
+	ambientNeutronCoeff REAL OPTIONAL,
+	ambientDoseEquiv REAL OPTIONAL,
+	ambientDoseEquivRate REAL OPTIONAL,
+	intensityLevel INTEGER OPTIONAL,
+	alarm1 BOOLEAN OPTIONAL,
+	alarm2 BOOLEAN OPTIONAL,
+	detectorDeadTime REAL OPTIONAL,
+	backgroundSubtraction BOOLEAN OPTIONAL,
+	exposureCoeff REAL OPTIONAL,
+	calibrationTemperatures SEQUENCE OF temperature REAL OPTIONAL,
+	energyCalibration SEQUENCE OF calibrationValues SEQUENCE OF CalibrationSet OPTIONAL,
+	compression BOOLEAN OPTIONAL,
+	radioNuclideCategory ENUMERATED
+		{
+		industrial   (0),
+		medical		 (1),
+		snm			 (2),
+		norm 		 (3)
+		}
+	...
+}
+-- End DetectorRadData data object definition -- 
+
+Header ::= SEQUENCE {
+	instrumentName VisibleString,
+	instrumentManufacturer VisibleString,
+	instrumentModel VisibleString,
+	instrumentSerial VisibleString,
+	instrumentFirmware VisibleString OPTIONAL,
+	instrumentSoftware VisibleString OPTIONAL,
+	firmwareVersion VisibleString OPTIONAL,
+	softwareVersion VisibleString OPTIONAL,
+	instrumentDescription1 VisibleString OPTIONAL,
+	instrumentDescription2 VisibleString OPTIONAL,
+	timeStampZero GeneralizedTime,
+	relativeTime REAL,
+	packetAccumulationTime REAL OPTIONAL,
+	dataPacketTransmissionRate REAL OPTIONAL,
+	statusPacketTransmissionRate REAL OPTIONAL,
+	numDetectors INTEGER,
+	detectorHeaderList SEQUENCE OF DetectorHeader,
+	mcaChannels INTEGER OPTIONAL,
+	compression BOOLEAN OPTIONAL,
+	...
+}
+-- End Header --
+
+-- Begin Instrument Status --
+-- Begin DetectorStatus Data type definition for use in detectorStatusList -- 
+DetectorStatus ::= SEQUENCE {
+	detectorID INTEGER,	-- will need to make a sequence of detectors
+	detectorVoltage REAL OPTIONAL,
+	detectorGain REAL OPTIONAL,
+	detectorTemperature REAL OPTIONAL,
+	...
+}
+-- End DetectorStatus Data type definition for use in detectorStatusList -- 
+
+InstrumentStatus ::= SEQUENCE {
+	packetNumber INTEGER,
+	instrumentStatusPacketNumber INTEGER,
+	relativeTime REAL,
+	timeStamp GeneralizedTime OPTIONAL,
+	instrumentTemperature REAL OPTIONAL,
+	batteryStatus INTEGER OPTIONAL,
+	detectorStatusList SEQUENCE OF DetectorStatus,
+	...
+}
+-- End Instrument Status --
+
+-- Begin Radiation Data --
+-- Begin DetectorRadData Data type definition for use in detectorRadDataList -- 
+DetectorRadData ::= SEQUENCE {
+	detectorID INTEGER,
+	counts INTEGER,
+	countRate REAL OPTIONAL,
+	deadTime REAL OPTIONAL,
+	exposure REAL OPTIONAL,
+	exposureRate REAL OPTIONAL,
+	gammaSpectrum SEQUENCE OF INTEGER OPTIONAL,
+	radionuclideID SEQUENCE OF INTEGER OPTIONAL,
+	radionuclideConf SEQUENCE OF INTEGER OPTIONAL,
+
+	...
+}
+-- End DetectorRadData Data type definition for use in detectorRadDataList -- 
+
+RadiationData ::= SEQUENCE {
+	packetNumber INTEGER,
+	relativeTime REAL,
+	timeStamp GeneralizedTime OPTIONAL,
+	accumulationTime REAL,
+	detectorRadDataList SEQUENCE OF DetectorRadData,
+	ambientDoseEquiv REAL OPTIONAL,
+	ambientDoseEquivRate REAL OPTIONAL,
+	intensity INTEGER OPTIONAL,
+
+	alarm ENUMERATED {
+		null (0),
+		alarm1 (1),
+		alarm2 (2),
+	}
+
+	radioNuclideCategory ENUMERATED {
+		industrial   (0),
+		medical		 (1),
+		snm			 (2),
+		norm 		 (3)
+	}
+	...
+}
+-- End Radiation Data --
+
+-- Begin Footer --
+Footer ::= SEQUENCE {
+	relativeTime REAL,
+	timeStamp GeneralizedTime,
+	...
+}
+-- End Footer --
+--END

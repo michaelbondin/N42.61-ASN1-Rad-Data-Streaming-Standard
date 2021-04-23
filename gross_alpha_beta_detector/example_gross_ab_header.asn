@@ -1,0 +1,20 @@
+-- Example header packet for an instrument with 2 detectors, 1 gross alpha
+-- counts and 1 gross beta counts, abbreviated "AB".
+-- Packet quantities populated with arbitrary data for illustration.
+-- Instrument transmits counts and count rate.
+
+grossABHeader Header ::= {
+    instrumentName "Sample Gross Alpha-Beta Counts Detector",
+    instrumentManufacturer "ANSI",
+    instrumentModel "Basic Alpha-Beta 1.00",
+    instrumentSerial "GAB-00000001",
+    timeStampZero "20210201123015.0", -- 12:30:15 February 1 2021
+    relativeTime 1,
+    numDetectors 2,
+    detectorHeaderList {{detectorID 0, detectorType 4},
+                        {detectorID 1, detectorType 5}
+    }
+}
+
+
+PacketType headerpacket ::= grossABHeader

@@ -1,0 +1,26 @@
+-- Variant #1 --
+energyCalibration {
+	{calibrationSeries {
+  	{temperature 15,
+  		calibrationSet {
+				{channel 640, energy 661.6},
+				{channel 1300, energy 1331}
+		  }
+  	},
+  	{temperature 25,
+  		 calibrationSet {
+  						{channel 655, energy 661.6},
+  						{channel 1339, energy 1331}
+  					   },
+  	}
+					  }
+	}
+}
+-- Variant #2 --
+energyCalibration {
+	calibrationTemperatures {15, 25},
+	calibrationSet {
+					{channel 640, 661.6}, {channel 1300, energy 1331},
+					{channel 655, 661.6}, {channel 1339, energy 1331}
+				   },
+}

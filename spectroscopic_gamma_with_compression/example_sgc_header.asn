@@ -1,0 +1,34 @@
+-- Example header packet for an instrument with 1 gamma spectroscopic detector 
+-- with compression.
+-- Abbreviated "SGC" or "sgc".
+-- Packet quantities populated with Co-57 measured with a ___ detector for ___ 
+-- seconds for illustration.
+-- Instrument transmits counts, count rate, exposure rate, and gamma spectrum.
+-- Header packet includes optional MCA channels, exposure coefficient,
+-- calibration temperatures, energy calibration, and compression status.
+-- Spectrum compressed according to N42.42 CountedZero algorithm
+
+sgcHeader Header ::= {
+    instrumentName "Example SGC Detector",
+    instrumentManufacturer "ANSI",
+    instrumentModel "SGC 1.00",
+    instrumentSerial "SGC-00000001",
+    timeStampZero "20210201123015.0", -- 12:30:15 February 1 2021
+    relativeTime 1,
+    numDetectors 1,
+    mcaChannels 256,
+    compression 1,
+    detectorHeaderList {
+                {detectorID 0,
+                 detectorType 2,
+                 exposureCoeff 7.5,
+                 calibrationTemperatures {20}, -- in Centigrade
+                 energyCalibration {calibrationValues {
+                                     {channel 18, energy 122}, -- 57Co at 20C
+                                     {channel 34, energy 135.13}, -- 57Co at 20C
+                                   }
+                }
+    }
+}
+
+PacketType headerpacket ::= sgcHeader

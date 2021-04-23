@@ -1,0 +1,20 @@
+-- Example instrument status packet for an instrument with 1 gamma spectroscopic detector 
+-- with compression.
+-- Abbreviated "SGC" or "sgc".
+-- Packet quantities populated with Co-57 measured with a ___ detector for ___ 
+-- seconds for illustration.
+-- Instrument transmits counts, count rate, exposure rate, and gamma spectrum.
+-- Instrument Status packet includes optional battery status, detector voltage,
+-- and detector temperature.
+-- Spectrum compressed according to N42.42 CountedZero algorithm
+
+sgInstrumentStatus InstrumentStatus ::= {
+    packetNumber 2,
+    relativeTime 1.05,
+    batteryStatus 75,
+    detectorStatusList {{detectorID 0, detectorVoltage 1500,
+    					           detectorTemperature 32}
+    }
+    }
+
+PacketType status ::= sgInstrumentStatus
