@@ -37,18 +37,18 @@ Header ::= SEQUENCE {
 		instrumentFirmwareVersion UTF8String OPTIONAL,
 		instrumentSoftware UTF8String OPTIONAL,
 		instrumentSoftwareVersion UTF8String OPTIONAL,
-		numberDetectors INTEGER OPTIONAL,
+		numberOfDetectors INTEGER OPTIONAL,
 		...
 	},
-	detectorInformationHeader SEQUENCE
+	detectorsListHeader SEQUENCE OF detectorInformationHeader SEQUENCE
 	{
 		detectorID INTEGER,
 		detectorType ENUMERATED
 			{
 				grossGamma				(0),
 				grossNeutron			(1),
-				gammaSpectroscopic 		(2),
-				gammaSpectroscopicRIID	(3),
+				spectroscopic 			(2),
+				spectroscopicRIID		(3),
 				grossAlpha				(4),
 				grossBeta				(5),
 				...
@@ -65,23 +65,24 @@ Header ::= SEQUENCE {
 				cdT		(7),
 				csI		(8),
 				gMT		(9),
-				gMTW	(11),
-				liFiber	(12),
-				pVT		(13),
-				pS		(14),
-				he3		(15),
-				he4		(16),
-				liGlass	(17),
-				liI		(18),
-				srI2	(19),
-				cLYC	(21),
-				cdWO4	(22),
-				bF3		(23),
-				hgI2	(24),
-				ceBr4	(25),
-				liCAF	(26), 
-				liZnS	(27), 
-				other	(28),
+				gMTW	(10),
+				liFiber	(11),
+				pVT		(12),
+				pS		(13),
+				he3		(14),
+				he4		(15),
+				liGlass	(16),
+				liI		(17),
+				srI2	(18),
+				cLYC	(19),
+				cdWO4	(20),
+				bF3		(21),
+				hgI2	(22),
+				ceBr4	(23),
+				liCAF	(24), 
+				liZnS	(25),
+				cLLBC	(26), 
+				other	(27),
 				...
 			} OPTIONAL,
 		detectorDescription UTF8String OPTIONAL,
@@ -136,7 +137,7 @@ InstrumentStatus ::= SEQUENCE
 		instrumentSelfCalibration BOOLEAN OPTIONAL,
 		...
 	},
-	detectorStatusInformation SEQUENCE OF detectorStatus SEQUENCE
+	detectorsListInformationStatus SEQUENCE OF detectorStatusInformation SEQUENCE
 	{
 		detectorID INTEGER,
 		detectorManufacturer UTF8String OPTIONAL,
@@ -153,10 +154,6 @@ InstrumentStatus ::= SEQUENCE
 -- End Instrument Status --
 
 
-
-
-
-
 -- Begin Radiation Data --
 RadiationData ::= SEQUENCE {
 	radiationDataPacketNumber INTEGER OPTIONAL,
@@ -167,12 +164,12 @@ RadiationData ::= SEQUENCE {
 		timeStamp DATE-TIME-FRACTIONAL OPTIONAL,
 		...
 	},
-	detectorRadiationData SEQUENCE
+	detectorsListRadiationData SEQUENCE OF detectorRadiationData SEQUENCE
 	{
 		detectorID INTEGER OPTIONAL,
 		counts INTEGER,
 		channelSpectrum SEQUENCE OF INTEGER OPTIONAL,
-		detectorDerivedData SEQUENCE OF derivedData SEQUENCE
+		derivedData SEQUENCE
 		{
 			countRate REAL OPTIONAL,
 			exposure REAL OPTIONAL,
@@ -180,31 +177,34 @@ RadiationData ::= SEQUENCE {
 			dose REAL OPTIONAL,
 			doseRate REAL OPTIONAL,
 			intensity INTEGER OPTIONAL,
-			energySpectrum SEQUENCE OPTIONAL
+			energySpectrum SEQUENCE
 				{
 				energyBinList SEQUENCE OF REAL OPTIONAL,
 				energyBinCountsList SEQUENCE OF INTEGER OPTIONAL,
-				},
+				...
+				} OPTIONAL,
 			alarm1 BOOLEAN OPTIONAL,
 			alarm2 BOOLEAN OPTIONAL,
 			alarm3 BOOLEAN OPTIONAL,
-			deadTime INTEGER OPTIONAL,
+			deadTime REAL OPTIONAL,
 			liveTime REAL OPTIONAL,
-			identificationResults SEQUENCE OF IdentifiedMaterial ::= SEQUENCE OPTIONAL
+			identificationResults SEQUENCE OF identifiedMaterial SEQUENCE
 			{
 				identifiedRadionuclide OCTET STRING OPTIONAL,
-				category ENUMERATED OPTIONAL
-				{
-					snm 			(0),
-					norm			(1),
-					industrial		(2),
-					medical			(3),
-					unidentified	(4),
-					...
+				category UTF8String OPTIONAL,
+				-- category ENUMERATED OPTIONAL
+				-- {
+				--	snm 			(0),
+				--	norm			(1),
+				--	industrial		(2),
+				--	medical			(3),
+				--	unidentified	(4),
+				--	...
 
-				},
-				confidenceLevel INTEGER OPTIONAL
-			},
+				--},
+				confidenceLevel INTEGER OPTIONAL,
+				...
+			} OPTIONAL,
 			...
 		} OPTIONAL,
 		...
@@ -215,9 +215,9 @@ RadiationData ::= SEQUENCE {
 
 -- Begin Footer --
 Footer ::= SEQUENCE {
-	timeContentsFooter TimeInformationFooter ::= SEQUENCE
+	timeInformationFooter SEQUENCE
 	{
-		relativeTime REAL,
+		relativeTime INTEGER,
 		timeStamp DATE-TIME-FRACTIONAL,
 		...
 	},
