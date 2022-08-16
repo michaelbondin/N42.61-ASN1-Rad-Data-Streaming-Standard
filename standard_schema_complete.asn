@@ -1,6 +1,14 @@
--- Edited 03/25/2021 --
+-- Edited 07/12/2022 --
 -- Complete ASN.1 Schema for ANSI N42.61: Wireless Radiation Data Streaming Standard --
 -- BEGIN --
+StandardSpecification DEFINITIONS AUTOMATIC TAGS ::= BEGIN
+DATE-TIME-FRACTIONAL ::= CHOICE
+	{
+	local-DATE-TIME-FRACTIONAL TIME(SETTINGS "Basic=Date-Time Date=YMD Time=HMSF3 Local-or-UTC=L"),
+	utc-DATE-TIME-FRACTIONAL TIME(SETTINGS "Basic=Date-Time Date=YMD Time=HMSF3 Local-or-UTC=Z"),
+	local-difference-DATE-TIME-FRACTIONAL TIME(SETTINGS "Basic=Date-Time Date=YMD Time=HMSF3 Local-or-UTC=LD")
+	}
+
 PacketType ::= CHOICE
 	{
 	headerpacket Header,
@@ -10,157 +18,213 @@ PacketType ::= CHOICE
 	...}
 
 -- Begin Header --
-
--- Begin CalibrationSet data object definition --
-CalibrationSet ::= SEQUENCE {
-	channel REAL,
-	energy REAL,
-	...
-}
--- End CalibrationSet data object definition --
-
--- Begin DetectorHeader data object definition --
-DetectorHeader ::= SEQUENCE {
-	detectorID INTEGER,
-	detectorType ENUMERATED
-		{
-		gammaGrossCount					(0),
-		neutronGrossCount				(1),
-		gammaSpectroscopic				(2),
-		gammaSpectroscopicRIID			(3),
-		alphaGrossCount					(4),
-		betaGrossCount					(5),
-		...
-		},
-	detectorName VisibleString,
-	detectorManufacturer VisibleString,
-	detectorModel VisibleString,
-	detectorSerial VisibleString,
-	detectorFirmware VisibleString OPTIONAL,
-	detectorSoftware VisibleString OPTIONAL,
-	detectorFirmwareVersion VisibleString OPTIONAL,
-	detectorSoftwareVersion VisibleString OPTIONAL,
-	detectortDescription1 VisibleString OPTIONAL,
-	detectortDescription2 VisibleString OPTIONAL,
-	ambientGammaCoeff REAL OPTIONAL,
-	ambientNeutronCoeff REAL OPTIONAL,
-	ambientDoseEquiv REAL OPTIONAL,
-	ambientDoseEquivRate REAL OPTIONAL,
-	intensityLevel INTEGER OPTIONAL,
-	alarm1 BOOLEAN OPTIONAL,
-	alarm2 BOOLEAN OPTIONAL,
-	detectorDeadTime REAL OPTIONAL,
-	backgroundSubtraction BOOLEAN OPTIONAL,
-	exposureCoeff REAL OPTIONAL,
-	calibrationTemperatures SEQUENCE OF temperature REAL OPTIONAL,
-	energyCalibration SEQUENCE OF calibrationValues SEQUENCE OF CalibrationSet OPTIONAL,
-	compression BOOLEAN OPTIONAL,
-	radioNuclideCategory ENUMERATED
-		{
-		industrial   (0),
-		medical		 (1),
-		snm			 (2),
-		norm 		 (3)
-		}
-	...
-}
--- End DetectorRadData data object definition -- 
-
 Header ::= SEQUENCE {
-	instrumentName VisibleString,
-	instrumentManufacturer VisibleString,
-	instrumentModel VisibleString,
-	instrumentSerial VisibleString,
-	instrumentFirmware VisibleString OPTIONAL,
-	instrumentSoftware VisibleString OPTIONAL,
-	firmwareVersion VisibleString OPTIONAL,
-	softwareVersion VisibleString OPTIONAL,
-	instrumentDescription1 VisibleString OPTIONAL,
-	instrumentDescription2 VisibleString OPTIONAL,
-	timeStampZero GeneralizedTime,
-	relativeTime REAL,
-	packetAccumulationTime REAL OPTIONAL,
-	dataPacketTransmissionRate REAL OPTIONAL,
-	statusPacketTransmissionRate REAL OPTIONAL,
-	numDetectors INTEGER,
-	detectorHeaderList SEQUENCE OF DetectorHeader,
-	mcaChannels INTEGER OPTIONAL,
-	compression BOOLEAN OPTIONAL,
+	timeInformationHeader SEQUENCE
+	{
+		timeStampZero DATE-TIME-FRACTIONAL,
+		radiationDataPacketTransmissionRate REAL OPTIONAL,
+		instrumentStatusPacketTransmissionRate REAL OPTIONAL,
+		...
+	},
+	instrumentInformationHeader SEQUENCE
+	{
+		instrumentName UTF8String,
+		instrumentDescription UTF8String OPTIONAL,
+		instrumentManufacturer UTF8String,
+		instrumentModel UTF8String,
+		instrumentSerialNumber UTF8String,
+		instrumentFirmware UTF8String OPTIONAL,
+		instrumentFirmwareVersion UTF8String OPTIONAL,
+		instrumentSoftware UTF8String OPTIONAL,
+		instrumentSoftwareVersion UTF8String OPTIONAL,
+		numberDetectors INTEGER OPTIONAL,
+		...
+	},
+	detectorInformationHeader SEQUENCE
+	{
+		detectorID INTEGER,
+		detectorType ENUMERATED
+			{
+				grossGamma				(0),
+				grossNeutron			(1),
+				gammaSpectroscopic 		(2),
+				gammaSpectroscopicRIID	(3),
+				grossAlpha				(4),
+				grossBeta				(5),
+				...
+			},
+		detectorKind ENUMERATED
+			{
+				hPGe 	(0),
+				hPXe	(1),
+				naI		(2),
+				laBr3	(3),
+				laCl3	(4),
+				bGO		(5),
+				czT		(6),
+				cdT		(7),
+				csI		(8),
+				gMT		(9),
+				gMTW	(11),
+				liFiber	(12),
+				pVT		(13),
+				pS		(14),
+				he3		(15),
+				he4		(16),
+				liGlass	(17),
+				liI		(18),
+				srI2	(19),
+				cLYC	(21),
+				cdWO4	(22),
+				bF3		(23),
+				hgI2	(24),
+				ceBr4	(25),
+				liCAF	(26), 
+				liZnS	(27), 
+				other	(28),
+				...
+			} OPTIONAL,
+		detectorDescription UTF8String OPTIONAL,
+		detectorManufacturer UTF8String OPTIONAL,
+		detectorModel UTF8String OPTIONAL,
+		detectorSerialNumber UTF8String OPTIONAL,
+		detectorFirmware UTF8String OPTIONAL,
+		detectorFirmwareVersion UTF8String OPTIONAL,
+		detectorSoftware UTF8String OPTIONAL,
+		detectorSoftwareVersion UTF8String OPTIONAL,
+		exposureCoeff REAL OPTIONAL,
+		doseConversionCoeff REAL OPTIONAL,
+		spectrumCompression BOOLEAN,
+		backgroundSubtraction BOOLEAN,
+		mcaChannels INTEGER,
+		energyCalibrationGroup SEQUENCE
+		{
+			calibrationTemperaturesList SEQUENCE OF INTEGER OPTIONAL,
+			calibrationEnergiesList SEQUENCE OF REAL OPTIONAL,
+			calibrationChannelsList SEQUENCE OF SEQUENCE OF INTEGER OPTIONAL,
+			calibrationTime DATE-TIME-FRACTIONAL OPTIONAL,
+			...
+		} OPTIONAL,
+		...
+	},
 	...
 }
 -- End Header --
 
 -- Begin Instrument Status --
--- Begin DetectorStatus Data type definition for use in detectorStatusList -- 
-DetectorStatus ::= SEQUENCE {
-	detectorID INTEGER,	-- will need to make a sequence of detectors
-	detectorVoltage REAL OPTIONAL,
-	detectorGain REAL OPTIONAL,
-	detectorTemperature REAL OPTIONAL,
-	...
-}
--- End DetectorStatus Data type definition for use in detectorStatusList -- 
-
-InstrumentStatus ::= SEQUENCE {
-	packetNumber INTEGER,
+InstrumentStatus ::= SEQUENCE
+{
 	instrumentStatusPacketNumber INTEGER,
-	relativeTime REAL,
-	timeStamp GeneralizedTime OPTIONAL,
-	instrumentTemperature REAL OPTIONAL,
-	batteryStatus INTEGER OPTIONAL,
-	detectorStatusList SEQUENCE OF DetectorStatus,
+	timeInformationInstrumentStatus SEQUENCE
+	{
+		relativeTime INTEGER,
+		timeStamp DATE-TIME-FRACTIONAL OPTIONAL,
+		...
+	},
+
+	instrumentStatusInformation SEQUENCE
+	{
+		instrumentTemperature INTEGER OPTIONAL,
+		instrumentPower CHOICE
+		{
+			instrumentBatteryRemainingCharge INTEGER,
+			instrumenBatteryVoltage REAL,
+			instrumentPowerStatus BOOLEAN,
+			...
+		} OPTIONAL,
+		instrumentHealth BOOLEAN OPTIONAL,
+		instrumentSelfCalibration BOOLEAN OPTIONAL,
+		...
+	},
+	detectorStatusInformation SEQUENCE OF detectorStatus SEQUENCE
+	{
+		detectorID INTEGER,
+		detectorManufacturer UTF8String OPTIONAL,
+		detectorModel UTF8String OPTIONAL,
+		detectorSerialNumber UTF8String OPTIONAL,
+		detectorVoltage REAL OPTIONAL,
+		detectorGain UTF8String OPTIONAL,
+		detectorTemperature INTEGER OPTIONAL,
+		detectorHealth BOOLEAN OPTIONAL,
+		...
+	},
 	...
 }
 -- End Instrument Status --
 
+
+
+
+
+
 -- Begin Radiation Data --
--- Begin DetectorRadData Data type definition for use in detectorRadDataList -- 
-DetectorRadData ::= SEQUENCE {
-	detectorID INTEGER,
-	counts INTEGER,
-	countRate REAL OPTIONAL,
-	deadTime REAL OPTIONAL,
-	exposure REAL OPTIONAL,
-	exposureRate REAL OPTIONAL,
-	gammaSpectrum SEQUENCE OF INTEGER OPTIONAL,
-	radionuclideID SEQUENCE OF INTEGER OPTIONAL,
-	radionuclideConf SEQUENCE OF INTEGER OPTIONAL,
-
-	...
-}
--- End DetectorRadData Data type definition for use in detectorRadDataList -- 
-
 RadiationData ::= SEQUENCE {
-	packetNumber INTEGER,
-	relativeTime REAL,
-	timeStamp GeneralizedTime OPTIONAL,
-	accumulationTime REAL,
-	detectorRadDataList SEQUENCE OF DetectorRadData,
-	ambientDoseEquiv REAL OPTIONAL,
-	ambientDoseEquivRate REAL OPTIONAL,
-	intensity INTEGER OPTIONAL,
+	radiationDataPacketNumber INTEGER OPTIONAL,
+	timeInformationRadiationData SEQUENCE
+	{
+		relativeTime INTEGER,
+		accumulationTime INTEGER,
+		timeStamp DATE-TIME-FRACTIONAL OPTIONAL,
+		...
+	},
+	detectorRadiationData SEQUENCE
+	{
+		detectorID INTEGER OPTIONAL,
+		counts INTEGER,
+		channelSpectrum SEQUENCE OF INTEGER OPTIONAL,
+		detectorDerivedData SEQUENCE OF derivedData SEQUENCE
+		{
+			countRate REAL OPTIONAL,
+			exposure REAL OPTIONAL,
+			exposureRate REAL OPTIONAL,
+			dose REAL OPTIONAL,
+			doseRate REAL OPTIONAL,
+			intensity INTEGER OPTIONAL,
+			energySpectrum SEQUENCE OPTIONAL
+				{
+				energyBinList SEQUENCE OF REAL OPTIONAL,
+				energyBinCountsList SEQUENCE OF INTEGER OPTIONAL,
+				},
+			alarm1 BOOLEAN OPTIONAL,
+			alarm2 BOOLEAN OPTIONAL,
+			alarm3 BOOLEAN OPTIONAL,
+			deadTime INTEGER OPTIONAL,
+			liveTime REAL OPTIONAL,
+			identificationResults SEQUENCE OF IdentifiedMaterial ::= SEQUENCE OPTIONAL
+			{
+				identifiedRadionuclide OCTET STRING OPTIONAL,
+				category ENUMERATED OPTIONAL
+				{
+					snm 			(0),
+					norm			(1),
+					industrial		(2),
+					medical			(3),
+					unidentified	(4),
+					...
 
-	alarm ENUMERATED {
-		null (0),
-		alarm1 (1),
-		alarm2 (2),
-	}
-
-	radioNuclideCategory ENUMERATED {
-		industrial   (0),
-		medical		 (1),
-		snm			 (2),
-		norm 		 (3)
-	}
+				},
+				confidenceLevel INTEGER OPTIONAL
+			},
+			...
+		} OPTIONAL,
+		...
+	},
 	...
 }
 -- End Radiation Data --
 
 -- Begin Footer --
 Footer ::= SEQUENCE {
-	relativeTime REAL,
-	timeStamp GeneralizedTime,
+	timeContentsFooter TimeInformationFooter ::= SEQUENCE
+	{
+		relativeTime REAL,
+		timeStamp DATE-TIME-FRACTIONAL,
+		...
+	},
+	lastInstrumentStatusPacketNumber INTEGER OPTIONAL,
+	lastRadiationDataPacketNumber INTEGER OPTIONAL,
 	...
 }
 -- End Footer --
---END
+
+END
