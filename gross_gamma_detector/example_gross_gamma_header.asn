@@ -1,19 +1,30 @@
+streamedPacket PacketType ::= headerpacket : {
+    timeInformationHeader 
+    {
+        timeStampZero utc-DATE-TIME-FRACTIONAL : "2022-07-12T09:49:01.649Z"
+    },
+    instrumentInformationHeader 
+    {
+        instrumentName "Sample Gross Gamma Counts Detector",
+        instrumentManufacturer "ANSI",
+        instrumentModel "Basic Gamma 1.00",
+        instrumentSerialNumber "GG-00000001"
+    },
+    detectorsListHeader
+    {
+        {
+            detectorID 0,
+            detectorType 0,
+            exposureCoeff 7.5,
+            spectrumCompression FALSE,
+            backgroundSubtraction FALSE,
+            mcaChannels 0
+        }
+    }
+}
+
 -- Example header packet for a simple gross gamma counts instrument with
 -- 1 detector.
 -- Packet quantities populated with arbitrary data for illustration.
 -- Instrument transmits, counts, count rate, and exposure rate.
 -- Header packet includes optional exposure coefficient.
-
-grossGammaHeader Header ::= {
-    instrumentName "Sample Gross Gamma Counts Detector",
-    instrumentManufacturer "ANSI",
-    instrumentModel "Basic Gamma 1.00",
-    instrumentSerial "GG-00000001",
-    timeStampZero "20210201123015.0", -- 12:30:15PM 1 February 2021
-    relativeTime 1,
-    numDetectors 1,
-    detectorHeaderList {{detectorID 0, detectorType 0, exposureCoeff 7.5}
-    }
-}
-
-PacketType headerpacket ::= grossGammaHeader

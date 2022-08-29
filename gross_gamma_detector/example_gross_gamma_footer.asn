@@ -1,10 +1,13 @@
+streamedPacket PacketType ::= footerpacket : {
+  timeInformationFooter
+  {
+    relativeTime 7200,
+    timeStamp utc-DATE-TIME-FRACTIONAL : "2022-07-12T09:49:01.649Z"
+  },
+  lastInstrumentStatusPacketNumber 2,
+  lastRadiationDataPacketNumber 3
+}
+
 -- Example footer packet for a simple gross gamma instrument with 1 detector.
 -- Packet quantities populated with arbitrary data for illustration.
 -- Instrument transmits counts, count rate, and exposure rate.
-
-sample_footer Footer ::= {
-  relativeTime 7200, -- 7200 seconds (2 hours)
-  timeStamp "20210201143015.0" -- 15.0 seconds after 2:30PM on 1 February 2021
-}
-
-PacketType footerpacket ::= sample_footer

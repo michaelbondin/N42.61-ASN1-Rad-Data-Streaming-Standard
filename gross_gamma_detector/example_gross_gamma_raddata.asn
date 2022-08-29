@@ -4,14 +4,24 @@
 -- Instrument tranmits counts, count rate, and exposure rate.
 -- Radiation data packet includes optional count rate and exposure rate.
 
-grossGammaRadData RadiationData ::= {
-  packetNumber 3,
-  relativeTime 2.10,
-  accumulationTime 1.0,
-  detectorRadDataList {{detectorID 0,
-                        counts 1500,
-                        countRate 750.0,
-                        exposureRate 7.5},
+streamedPacket PacketType ::= data : {
+  radiationDataPacketNumber 3,
+  timeInformationRadiationData
+  {
+    relativeTime 210,
+    accumulationTime 1000,
+    timeStamp utc-DATE-TIME-FRACTIONAL : "2022-07-12T09:49:01.649Z"
+  },
+  detectorsListRadiationData
+  {
+    {
+      detectorID 0,
+      counts 1500,
+      derivedData
+        {
+          countRate 750.0,
+          exposureRate 7.5
+        }
+    }
+  }
 }
-
-PacketType data ::= grossGammaRadData

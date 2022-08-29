@@ -1,0 +1,23 @@
+streamedPacket PacketType ::= status : {
+  instrumentStatusPacketNumber 2,
+  timeInformationInstrumentStatus {
+    relativeTime 105,
+    timeStamp utc-DATE-TIME-FRACTIONAL : "2022-07-12T09:49:01.649Z" },
+  instrumentStatusInformation {
+    instrumentTemperature 23,
+    instrumentPower instrumentBatteryVoltage 12.6,
+    instrumentHealth TRUE },
+  detectorsListInformationStatus
+  {
+    {
+      detectorID 0
+    }
+  }
+}
+
+-- Example instrument status packet for a simple gross gamma counts
+-- instrument with 1 detector.
+-- Packet quantities populated with arbitrary data for illustration.
+-- Instrument transmits counts, count rate, and exposure rate.
+-- Instrument Status packet includes optional battery status,
+-- and detector temperature.
