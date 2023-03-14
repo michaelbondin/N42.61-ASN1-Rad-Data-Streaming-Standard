@@ -2,13 +2,6 @@
 -- Complete ASN.1 Schema for ANSI N42.61: Wireless Radiation Data Streaming Standard --
 -- BEGIN --
 StandardSpecification DEFINITIONS AUTOMATIC TAGS ::= BEGIN
-	DATE-TIME-FRACTIONAL ::= CHOICE
-		{
-		local-DATE-TIME-FRACTIONAL TIME(SETTINGS "Basic=Date-Time Date=YMD Time=HMSF3 Local-or-UTC=L"),
-		utc-DATE-TIME-FRACTIONAL TIME(SETTINGS "Basic=Date-Time Date=YMD Time=HMSF3 Local-or-UTC=Z"),
-		local-difference-DATE-TIME-FRACTIONAL TIME(SETTINGS "Basic=Date-Time Date=YMD Time=HMSF3 Local-or-UTC=LD"),
-		...}
-
 	PacketType ::= CHOICE
 		{
 		headerpacket Header,
@@ -21,7 +14,7 @@ StandardSpecification DEFINITIONS AUTOMATIC TAGS ::= BEGIN
 	Header ::= SEQUENCE {
 		timeInformationHeader SEQUENCE
 		{
-			timeStampZero DATE-TIME-FRACTIONAL,
+			timeStampZero DATE-TIME,
 			radiationDataPacketTransmissionRate REAL OPTIONAL,
 			instrumentStatusPacketTransmissionRate REAL OPTIONAL,
 			...
@@ -103,7 +96,7 @@ StandardSpecification DEFINITIONS AUTOMATIC TAGS ::= BEGIN
 				calibrationTemperaturesList SEQUENCE OF INTEGER OPTIONAL,
 				calibrationEnergiesList SEQUENCE OF REAL OPTIONAL,
 				calibrationChannelsList SEQUENCE OF SEQUENCE OF INTEGER OPTIONAL,
-				calibrationTime DATE-TIME-FRACTIONAL OPTIONAL,
+				calibrationTime DATE-TIME OPTIONAL,
 				...
 			} OPTIONAL,
 			...
@@ -119,7 +112,7 @@ StandardSpecification DEFINITIONS AUTOMATIC TAGS ::= BEGIN
 		timeInformationInstrumentStatus SEQUENCE
 		{
 			relativeTime INTEGER,
-			timeStamp DATE-TIME-FRACTIONAL OPTIONAL,
+			timeStamp DATE-TIME OPTIONAL,
 			...
 		},
 
@@ -161,7 +154,7 @@ StandardSpecification DEFINITIONS AUTOMATIC TAGS ::= BEGIN
 		{
 			relativeTime INTEGER,
 			accumulationTime INTEGER,
-			timeStamp DATE-TIME-FRACTIONAL OPTIONAL,
+			timeStamp DATE-TIME OPTIONAL,
 			...
 		},
 		detectorsListRadiationData SEQUENCE OF detectorRadiationData SEQUENCE
@@ -218,7 +211,7 @@ StandardSpecification DEFINITIONS AUTOMATIC TAGS ::= BEGIN
 		timeInformationFooter SEQUENCE
 		{
 			relativeTime INTEGER,
-			timeStamp DATE-TIME-FRACTIONAL,
+			timeStamp DATE-TIME,
 			...
 		},
 		lastInstrumentStatusPacketNumber INTEGER OPTIONAL,
