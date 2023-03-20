@@ -122,7 +122,6 @@ StandardSpecification DEFINITIONS AUTOMATIC TAGS ::= BEGIN
 			timeStamp DATE-TIME-FRACTIONAL OPTIONAL,
 			...
 		},
-
 		instrumentStatusInformation SEQUENCE
 		{
 			instrumentTemperature INTEGER OPTIONAL,
@@ -132,7 +131,7 @@ StandardSpecification DEFINITIONS AUTOMATIC TAGS ::= BEGIN
 				instrumentBatteryVoltage REAL,
 				instrumentPowerStatus BOOLEAN,
 				...
-			} OPTIONAL,
+			},
 			instrumentHealth BOOLEAN OPTIONAL,
 			instrumentSelfCalibration BOOLEAN OPTIONAL,
 			...
@@ -147,8 +146,15 @@ StandardSpecification DEFINITIONS AUTOMATIC TAGS ::= BEGIN
 			detectorGain UTF8String OPTIONAL,
 			detectorTemperature INTEGER OPTIONAL,
 			detectorHealth BOOLEAN OPTIONAL,
+			energyBinsStructureUpdated CHOICE
+			{
+				energyBinsCoefficients SEQUENCE OF REAL,
+				energyBinsList SEQUENCE OF REAL,
+				...
+			} OPTIONAL,
 			...
 		},
+		endInstrumentStatusPacket BIT STRING OPTIONAL,
 		...
 	}
 	-- End Instrument Status --
@@ -162,6 +168,7 @@ StandardSpecification DEFINITIONS AUTOMATIC TAGS ::= BEGIN
 			relativeTime INTEGER,
 			accumulationTime INTEGER,
 			timeStamp DATE-TIME-FRACTIONAL OPTIONAL,
+			instrumentLocationFine SEQUENCE OF REAL OPTIONAL,
 			...
 		},
 		detectorsListRadiationData SEQUENCE OF detectorRadiationData SEQUENCE
@@ -177,12 +184,7 @@ StandardSpecification DEFINITIONS AUTOMATIC TAGS ::= BEGIN
 				dose REAL OPTIONAL,
 				doseRate REAL OPTIONAL,
 				intensity INTEGER OPTIONAL,
-				energySpectrum SEQUENCE
-					{
-					energyBinList SEQUENCE OF REAL OPTIONAL,
-					energyBinCountsList SEQUENCE OF INTEGER OPTIONAL,
-					...
-					} OPTIONAL,
+				energyBinsCounts SEQUENCE OF REAL OPTIONAL,
 				alarm1 BOOLEAN OPTIONAL,
 				alarm2 BOOLEAN OPTIONAL,
 				alarm3 BOOLEAN OPTIONAL,
@@ -192,16 +194,6 @@ StandardSpecification DEFINITIONS AUTOMATIC TAGS ::= BEGIN
 				{
 					identifiedRadionuclide OCTET STRING OPTIONAL,
 					category UTF8String OPTIONAL,
-					-- category ENUMERATED OPTIONAL
-					-- {
-					--	snm 			(0),
-					--	norm			(1),
-					--	industrial		(2),
-					--	medical			(3),
-					--	unidentified	(4),
-					--	...
-
-					--},
 					confidenceLevel INTEGER OPTIONAL,
 					...
 				} OPTIONAL,
@@ -209,6 +201,7 @@ StandardSpecification DEFINITIONS AUTOMATIC TAGS ::= BEGIN
 			} OPTIONAL,
 			...
 		},
+		endRadiationDataPacket BIT STRING OPTIONAL,
 		...
 	}
 	-- End Radiation Data --
