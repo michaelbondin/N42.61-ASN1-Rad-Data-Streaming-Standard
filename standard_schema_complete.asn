@@ -170,7 +170,7 @@ StandardSpecification DEFINITIONS AUTOMATIC TAGS ::= BEGIN
 			relativeTime INTEGER,
 			accumulationTime INTEGER,
 			timeStamp DATE-TIME-FRACTIONAL OPTIONAL,
-			instrumentLocationFine SEQUENCE OF REAL OPTIONAL,
+			instrumentLocation SEQUENCE OF REAL OPTIONAL,
 			...
 		},
 		detectorsListRadiationData SEQUENCE OF detectorRadiationData SEQUENCE
