@@ -21,7 +21,7 @@ StandardSpecification DEFINITIONS AUTOMATIC TAGS ::= BEGIN
 	Header ::= SEQUENCE {
 		timeInformationHeader SEQUENCE
 		{
-			timeStampZero DATE-TIME,
+			timeStampZero DATE-TIME-FRACTIONAL,
 			radiationDataPacketTransmissionRate REAL OPTIONAL,
 			instrumentStatusPacketTransmissionRate REAL OPTIONAL,
 			...
@@ -104,7 +104,7 @@ StandardSpecification DEFINITIONS AUTOMATIC TAGS ::= BEGIN
 				calibrationTemperaturesList SEQUENCE OF INTEGER OPTIONAL,
 				calibrationEnergiesList SEQUENCE OF REAL OPTIONAL,
 				calibrationChannelsList SEQUENCE OF SEQUENCE OF INTEGER OPTIONAL,
-				calibrationTime DATE-TIME OPTIONAL,
+				calibrationTime DATE-TIME-FRACTIONAL OPTIONAL,
 				energyBinsStructure CHOICE
 					{
 					energyBinsCoefficients SEQUENCE OF REAL,
@@ -219,7 +219,7 @@ StandardSpecification DEFINITIONS AUTOMATIC TAGS ::= BEGIN
 		timeInformationFooter SEQUENCE
 		{
 			relativeTime INTEGER,
-			timeStamp DATE-TIME,
+			timeStamp DATE-TIME-FRACTIONAL,
 			...
 		},
 		lastInstrumentStatusPacketNumber INTEGER OPTIONAL,
