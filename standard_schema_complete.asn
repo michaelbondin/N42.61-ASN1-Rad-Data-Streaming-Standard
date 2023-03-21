@@ -21,7 +21,7 @@ StandardSpecification DEFINITIONS AUTOMATIC TAGS ::= BEGIN
 	Header ::= SEQUENCE {
 		timeInformationHeader SEQUENCE
 		{
-			timeStampZero DATE-TIME-FRACTIONAL,
+			timeStampZero DATE-TIME,
 			radiationDataPacketTransmissionRate REAL OPTIONAL,
 			instrumentStatusPacketTransmissionRate REAL OPTIONAL,
 			...
@@ -61,7 +61,7 @@ StandardSpecification DEFINITIONS AUTOMATIC TAGS ::= BEGIN
 					laBr3	(3),
 					laCl3	(4),
 					bGO		(5),
-					czT		(6),
+					cZT		(6),
 					cdT		(7),
 					csI		(8),
 					gMT		(9),
@@ -82,7 +82,8 @@ StandardSpecification DEFINITIONS AUTOMATIC TAGS ::= BEGIN
 					liCAF	(24), 
 					liZnS	(25),
 					cLLBC	(26), 
-					other	(27),
+					plastic	(27),
+					other	(28),
 					...
 				} OPTIONAL,
 			detectorDescription UTF8String OPTIONAL,
@@ -95,19 +96,26 @@ StandardSpecification DEFINITIONS AUTOMATIC TAGS ::= BEGIN
 			detectorSoftwareVersion UTF8String OPTIONAL,
 			exposureCoeff REAL OPTIONAL,
 			doseConversionCoeff REAL OPTIONAL,
-			spectrumCompression BOOLEAN,
-			backgroundSubtraction BOOLEAN,
-			mcaChannels INTEGER,
-			energyCalibrationGroup SEQUENCE
+			spectrumCompression BOOLEAN OPTIONAL,
+			backgroundSubtraction BOOLEAN OPTIONAL,
+			numberOfMCAChannels INTEGER,
+			energyCalibration SEQUENCE
 			{
 				calibrationTemperaturesList SEQUENCE OF INTEGER OPTIONAL,
 				calibrationEnergiesList SEQUENCE OF REAL OPTIONAL,
 				calibrationChannelsList SEQUENCE OF SEQUENCE OF INTEGER OPTIONAL,
-				calibrationTime DATE-TIME-FRACTIONAL OPTIONAL,
+				calibrationTime DATE-TIME OPTIONAL,
+				energyBinsStructure CHOICE
+					{
+					energyBinsCoefficients SEQUENCE OF REAL,
+					energyBinsList SEQUENCE OF REAL,
+					...
+					} OPTIONAL,
 				...
 			} OPTIONAL,
 			...
 		},
+		endHeaderPacket BIT STRING OPTIONAL,
 		...
 	}
 	-- End Header --
@@ -211,11 +219,12 @@ StandardSpecification DEFINITIONS AUTOMATIC TAGS ::= BEGIN
 		timeInformationFooter SEQUENCE
 		{
 			relativeTime INTEGER,
-			timeStamp DATE-TIME-FRACTIONAL,
+			timeStamp DATE-TIME,
 			...
 		},
 		lastInstrumentStatusPacketNumber INTEGER OPTIONAL,
 		lastRadiationDataPacketNumber INTEGER OPTIONAL,
+		endFooterPacket BIT STRING OPTIONAL,
 		...
 	}
 	-- End Footer --
