@@ -154,12 +154,6 @@ StandardSpecification DEFINITIONS AUTOMATIC TAGS ::= BEGIN
 			detectorGain UTF8String OPTIONAL,
 			detectorTemperature INTEGER OPTIONAL,
 			detectorHealth BOOLEAN OPTIONAL,
-			energyBinsStructureUpdated CHOICE
-			{
-				energyBinsCoefficients SEQUENCE OF REAL,
-				energyBinsList SEQUENCE OF REAL,
-				...
-			} OPTIONAL,
 			...
 		},
 		endInstrumentStatusPacket BIT STRING OPTIONAL,
