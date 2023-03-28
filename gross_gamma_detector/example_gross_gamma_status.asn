@@ -1,20 +1,24 @@
 streamedPacket PacketType ::= status : {
   instrumentStatusPacketNumber 2,
   timeInformationInstrumentStatus {
-    relativeTime 105,
-    timeStamp utc-DATE-TIME-FRACTIONAL : "2022-07-12T09:49:01.649Z" },
+    relativeTime 1005,
+    timeStamp utc-DATE-TIME-FRACTIONAL : "2023-03-20T15:23:27.341Z" },
   instrumentStatusInformation {
     instrumentTemperature 23,
-    instrumentPower instrumentBatteryVoltage 12.6,
+    instrumentPower instrumentBatteryRemainingCharge : 70,
     instrumentHealth TRUE },
   detectorsListInformationStatus
   {
     {
-      detectorID 0
+      detectorID 0,
+      detectorVoltage = -1290,
+      detectorTemperature = 34
     }
-  }
+  },
+  endInstrumentStatusPacket 10010101
 }
 
+-- Updated 03/28/2023
 -- Example instrument status packet for a simple gross gamma counts
 -- instrument with 1 detector.
 -- Packet quantities populated with arbitrary data for illustration.

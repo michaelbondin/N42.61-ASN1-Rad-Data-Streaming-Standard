@@ -2,20 +2,26 @@ streamedPacket PacketType ::= data : {
   radiationDataPacketNumber 3,
   timeInformationRadiationData
   {
-    relativeTime 210,
-    accumulationTime 2000,
-    timeStamp utc-DATE-TIME-FRACTIONAL : "2022-07-12T09:49:01.649Z"
+    relativeTime 3010,
+    accumulationTime 2000
   },
   detectorsListRadiationData
   {
     {
       detectorID 0,
-      counts 1500,
+      counts 6489,
       derivedData
         {
-          countRate 750.0,
-          exposureRate 7.5
+          countRate 3244.5,
+          exposure 20.028,
+          exposureRate 72100.0,
+          alarm1 = TRUE,
+          deadTime = 10.0,
+          liveTime = 900.0
         }
     }
-  }
+  },
+  endRadiationDataPacket 1110000
 }
+
+-- Updated 03/28/2023

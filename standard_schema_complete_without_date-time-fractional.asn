@@ -92,7 +92,7 @@ StandardSpecification DEFINITIONS AUTOMATIC TAGS ::= BEGIN
 			spectrumCompression BOOLEAN OPTIONAL,
 			backgroundSubtraction BOOLEAN OPTIONAL,
 			numberOfMCAChannels INTEGER,
-			energyCalibration SEQUENCE
+			calibration SEQUENCE
 			{
 				calibrationTemperaturesList SEQUENCE OF INTEGER OPTIONAL,
 				calibrationEnergiesList SEQUENCE OF REAL OPTIONAL,
