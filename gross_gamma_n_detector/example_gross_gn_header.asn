@@ -26,7 +26,7 @@ grossGNHeader Header ::= {
             detectorManufacturer "IEEE",
             detectorModel "Basic Gamma 1.00",
             exposureCoeff 7.5,
-            backgroundSubtraction 1,
+            backgroundSubtraction TRUE,
             numberOfMCAChannels 1,
             calibration
             {
