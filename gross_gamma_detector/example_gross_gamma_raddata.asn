@@ -13,15 +13,15 @@ streamedPacket PacketType ::= data : {
       derivedData
         {
           countRate 3244.5,
-          exposure 20.028,
+          exposure 40.056,
           exposureRate 72100.0,
           alarm1 = TRUE,
           deadTime = 10.0,
-          liveTime = 900.0
+          liveTime = 1800.0
         }
     }
   },
-  endRadiationDataPacket 1110000
+  endRadiationDataPacket 1110010
 }
 
 -- Updated 03/28/2023

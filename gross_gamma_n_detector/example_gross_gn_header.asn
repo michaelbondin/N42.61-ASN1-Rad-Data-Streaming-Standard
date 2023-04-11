@@ -1,21 +1,51 @@
 -- Example header packet for an instrument with 2 detectors, 1 gross gamma
 -- counts and 1 gross neutron counts, abbreviated "GN".
--- Packet quantities populated with arbitrary data for illustration.
--- Instrument transmits, counts, count rate, and exposure rate.
--- Header packet includes optional exposure coefficient.
+-- Packet quantities populated with arbitrary data.
 
 grossGNHeader Header ::= {
-    instrumentName "Sample Gross Gamma-Neutron Counts Detector",
-    instrumentManufacturer "ANSI",
-    instrumentModel "Basic Gamma-Neutron 1.00",
-    instrumentSerial "GGN-00000001",
-    timeStampZero "20210201123015.0", -- 12:30:15 February 1 2021
-    relativeTime 1,
-    numDetectors 2,
-    detectorHeaderList {{detectorID 0, detectorType 0, exposureCoeff 7.5},
-                        {detectorID 1, detectorType 1}
+    timeInformationHeader
+    {
+        timeStampZero utc-DATE-TIME-FRACTIONAL : "2023-03-20T15:23:27.341Z",
+        radiationDataPacketTransmissionRate 2.0
+    },
+    instrumentInformationHeader
+    {
+        instrumentName "GN1",
+        instrumentDescription "Sample Gross Gamma Counts Detector",
+        instrumentManufacturer "IEEE",
+        instrumentModel "Basic Gamma-Neutron Instrument 1.00",
+        numberOfDetectors 2,
+        instrumentSerialNumber "AAA-0001"
+    },
+    detectorsListHeader
+    {
+        {
+            detectorID 0,
+            detectorType "grossGamma",
+            detectorKind "naI",
+            detectorManufacturer "IEEE",
+            detectorModel "Basic Gamma 1.00",
+            exposureCoeff 7.5,
+            backgroundSubtraction 1,
+            numberOfMCAChannels 1,
+            calibration
+            {
+                calibrationTime utc-DATE-TIME-FRACTIONAL : "2023-03-20T09:23:27.341Z",
+            }
+        },
+        {
+            detectorID 1,
+            detectorType "grossNeutron",
+            detectorKind "he3",
+            detectorDescription "Sample Gross Neutron Counts Detector",
+            detectorManufacturer "IEEE",
+            detectorModel "Basic Gamma 1.00",
+            detectorSerialNumber "N-00000001",
+            doseConversionCoeff 20,
+            numberOfMCAChannels 1,
+        },
     }
+    endHeaderPacket 01010101,
 }
-
 
 PacketType headerpacket ::= grossGNHeader
