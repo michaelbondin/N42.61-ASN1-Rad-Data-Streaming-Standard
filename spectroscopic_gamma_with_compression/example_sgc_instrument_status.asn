@@ -9,12 +9,27 @@
 -- Spectrum compressed according to N42.42 CountedZero algorithm
 
 sgInstrumentStatus InstrumentStatus ::= {
-    packetNumber 2,
-    relativeTime 1.05,
-    batteryStatus 75,
-    detectorStatusList {{detectorID 0, detectorVoltage 1500,
-    					           detectorTemperature 32}
+    instrumentStatusPacketNumber 2,
+    timeInformationInstrumentStatus 
+    {
+            relativeTime 1050,
+            timeStamp utc-DATE-TIME-FRACTIONAL : "2023-03-20T15:23:27.341Z"
+    },
+    instrumentStatusInformation
+    {
+        instrumentPower : instrumentPowerStatus TRUE,
+        instrumentHealth TRUE,
+        instrumentSelfCalibration TRUE
+    },
+    detectorsListInformationStatus
+    {
+        {
+            detectorID 0,
+            detectorGain "5204",
+            detectorTemperature 25,
+            detectorHealth TRUE
+        }
     }
-    }
+}
 
-PacketType status ::= sgInstrumentStatus
+PacketType status ::= sgInstrumentStatus     
