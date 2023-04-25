@@ -76,7 +76,8 @@ StandardSpecification DEFINITIONS AUTOMATIC TAGS ::= BEGIN
 					liZnS	(25),
 					cLLBC	(26), 
 					plastic	(27),
-					other	(28),
+					znSAG	(28),
+					other	(29),
 					...
 				} OPTIONAL,
 			detectorDescription UTF8String OPTIONAL,
@@ -91,7 +92,7 @@ StandardSpecification DEFINITIONS AUTOMATIC TAGS ::= BEGIN
 			doseConversionCoeff REAL OPTIONAL,
 			spectrumCompression BOOLEAN OPTIONAL,
 			backgroundSubtraction BOOLEAN OPTIONAL,
-			numberOfMCAChannels INTEGER,
+			numberOfMCAChannels INTEGER OPTIONAL,
 			calibration SEQUENCE
 			{
 				calibrationTemperaturesList SEQUENCE OF INTEGER OPTIONAL,
