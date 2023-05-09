@@ -10,8 +10,13 @@
 -- to 255. A detailed table is included in the standard.
 
 sgRIIDFooter Footer ::= {
-  relativeTime 180, -- 3 minutes
-  timeStamp "20210201123315.0" -- 12:33:15PM February 1 2021
-}
+  timeInformationFooter
+    {
+      relativeTime 3600
+    },
+    lastInstrumentStatusPacketNumber 1,
+    lastRadiationDataPacketNumber 1,
+    endFooterPacket 10101010
+  }
 
 PacketType footerpacket ::= sgRIIDFooter

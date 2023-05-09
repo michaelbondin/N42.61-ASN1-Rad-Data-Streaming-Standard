@@ -6,12 +6,28 @@
 -- and detector temperature.
 
 sgInstrumentStatus InstrumentStatus ::= {
-    packetNumber 2,
-    relativeTime 1.05,
-    batteryStatus 75,
-    detectorStatusList {{detectorID 0, detectorVoltage 1500,
-    					           detectorTemperature 32}
-    }
-    }
+    instrumentStatusPacketNumber 1,
+    timeInformationInstrumentStatus
+    {
+        relativeTime 1200,
+    },
+    instrumentStatusInformation
+    {
+        instrumentTemperature 23,
+        instrumentPower instrumentBatteryVoltage : 12.6,
+        instrumentHealth TRUE,
+        instrumentSelfCalibration TRUE
+    },
+    detectorsListInformationStatus 
+    {
+        {
+            detectorID 0,
+            detectorVoltage -1300.0,
+            detectorGain "5204",
+            detectorHealth TRUE
+        }
+    },
+    endInstrumentStatusPacket 11001110
+}
 
 PacketType status ::= sgInstrumentStatus

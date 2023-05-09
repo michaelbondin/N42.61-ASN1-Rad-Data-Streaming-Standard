@@ -20,3 +20,26 @@ sgRIIDInstrumentStatus InstrumentStatus ::= {
 }
 
 PacketType status ::= sgRIIDInstrumentStatus
+
+{
+		instrumentStatusPacketNumber 1,
+		timeInformationInstrumentStatus
+		{
+			relativeTime 1200,
+		},
+		instrumentStatusInformation
+		{
+			instrumentTemperature 23,
+			instrumentPower instrumentBatteryVoltage : 12.6,
+			instrumentHealth TRUE,
+			instrumentSelfCalibration TRUE
+		},
+		detectorsListInformationStatus {
+		{
+			detectorID 0,
+			detectorVoltage -1300.0,
+			detectorGain "5204",
+			detectorHealth TRUE
+		},
+		endInstrumentStatusPacket 10010000
+	}

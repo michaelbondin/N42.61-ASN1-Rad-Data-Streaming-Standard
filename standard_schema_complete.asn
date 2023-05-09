@@ -144,7 +144,7 @@ StandardSpecification DEFINITIONS AUTOMATIC TAGS ::= BEGIN
 			instrumentHealth BOOLEAN OPTIONAL,
 			instrumentSelfCalibration BOOLEAN OPTIONAL,
 			...
-		},
+		} OPTIONAL,
 		detectorsListInformationStatus SEQUENCE OF detectorStatusInformation SEQUENCE
 		{
 			detectorID INTEGER,
