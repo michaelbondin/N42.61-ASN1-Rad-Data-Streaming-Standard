@@ -2,7 +2,7 @@
 -- counts and 1 gross neutron counts, abbreviated "GN".
 -- Packet quantities populated with arbitrary data.
 
-grossGNHeader Header ::= {
+streamedPacket StreamedPacket ::= header : {
     timeInformationHeader
     {
         timeStampZero utc-DATE-TIME-FRACTIONAL : "2023-03-20T15:23:27.341Z",
@@ -11,41 +11,37 @@ grossGNHeader Header ::= {
     instrumentInformationHeader
     {
         instrumentName "GN1",
-        instrumentDescription "Sample Gross Gamma Counts Detector",
-        instrumentManufacturer "IEEE",
+        instrumentDescription "Sample Gross Gamma-Neutron Counts Detectors",
+        instrumentManufacturer "Nuclear Detection Company",
         instrumentModel "Basic Gamma-Neutron Instrument 1.00",
-        numberOfDetectors 2,
-        instrumentSerialNumber "AAA-0001"
+        instrumentSerialNumber "AAA-0001",
+        numberOfDetectors 2
     },
     detectorsListHeader
     {
         {
             detectorID 0,
-            detectorType "grossGamma",
-            detectorKind "naI",
-            detectorManufacturer "IEEE",
-            detectorModel "Basic Gamma 1.00",
+            detectorType grossGamma,
+            detectorKind naI,
+            detectorManufacturer "Nuclear Detection Company",
+            detectorModel "G340",
             exposureCoeff 7.5,
             backgroundSubtraction TRUE,
-            numberOfMCAChannels 1,
             calibration
             {
-                calibrationTime utc-DATE-TIME-FRACTIONAL : "2023-03-20T09:23:27.341Z",
+                calibrationTime utc-DATE-TIME-FRACTIONAL : 
+                "2023-03-20T09:23:27.341Z"
             }
         },
         {
             detectorID 1,
-            detectorType "grossNeutron",
-            detectorKind "he3",
+            detectorType grossNeutron,
+            detectorKind he3,
             detectorDescription "Sample Gross Neutron Counts Detector",
-            detectorManufacturer "IEEE",
-            detectorModel "Basic Gamma 1.00",
-            detectorSerialNumber "N-00000001",
-            doseConversionCoeff 20,
-            numberOfMCAChannels 1,
-        },
+            detectorManufacturer "Radiation Counting Enterprise",
+            detectorModel "N2",
+            detectorSerialNumber "N2-00000001",
+            doseConversionCoeff 10
+        }
     }
-    endHeaderPacket 01010101,
 }
-
-PacketType headerpacket ::= grossGNHeader

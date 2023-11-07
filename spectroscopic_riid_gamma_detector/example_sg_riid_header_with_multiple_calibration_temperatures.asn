@@ -1,11 +1,17 @@
--- Example header packet for an instrument with 1 gamma spectroscopic detector.
--- Abbreviated "SG" or "sg".
--- Packet quantities populated with arbitrary data.
--- Instrument transmits counts, count rate, exposure rate, and gamma spectrum.
+-- Example header packet for an instrument with 1 gamma spectroscopic detector
+-- with radionuclide identification (RIID), abbreviated "SGRIID" or "sgRIID".
+-- Packet quantities populated with arbitrary data for illustration.
+-- Instrument transmits counts, count rate, exposure rate, gamma spectrum,
+-- and radionuclide identification and radionuclide confidence level.
 -- Header packet includes optional MCA channels, exposure coefficient,
 -- calibration temperatures, and energy calibration.
+-- Identified radionuclides are denoted using 2 fields (bytes).
+-- The first field (byte) identifies the element (Z), which ranges from 1 to 98.
+-- The second field (byte) identifies the atomic mass (A), which ranges from 1
+-- to 255. A detailed table is included in the standard.
 
-sgHeader PacketType ::= header : {
+
+streamedPacket StreamedPacket ::= header : {
     timeInformationHeader
     {
         timeStampZero utc-DATE-TIME-FRACTIONAL : "2023-03-20T15:23:27.341Z",
@@ -14,12 +20,10 @@ sgHeader PacketType ::= header : {
     instrumentInformationHeader
     {
         instrumentName "Example SG-RIID Detector",
-        instrumentDescription "Sample Spectroscopic Gamma Detector with Radioisotope Identification",
+        instrumentDescription "Sample Spectroscopic Gamma Instrument with Radioisotope Identification",
         instrumentManufacturer "Nuclear Detection Company",
-        instrumentModel "GS450",
-        instrumentSerialNumber "SG_RIID-00000001",
-        instrumentFirmware "RIID-PROM",
-        instrumentFirmwareVersion "1.1.1"
+        instrumentModel "NA20",
+        instrumentSerialNumber "521"
     },
     detectorsListHeader 
     {
@@ -33,9 +37,9 @@ sgHeader PacketType ::= header : {
             detectorFirmware "NaI-PROM",
             detectorFirmwareVersion "1.1.1",
             exposureCoeff 1.0,
-            spectrumCompression TRUE,
+            spectrumCompression FALSE,
             numberOfMCAChannels 256,
-            calibration
+            energyCalibration
             {
                 calibrationTemperaturesList {-20, -10, 0, 10, 20, 30, 40, 50},
                 calibrationEnergiesList {122, 239, 352, 609, 968, 1460, 1764, 2204, 2614},

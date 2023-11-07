@@ -18,8 +18,7 @@ streamedPacket PacketType ::= status : {
       detectorVoltage -1290,
       detectorTemperature 34
     }
-  },
-  endInstrumentStatusPacket 1111000
+  }
 }
 
 -- Updated 05/10/2023

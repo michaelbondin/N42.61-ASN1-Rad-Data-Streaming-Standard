@@ -5,11 +5,11 @@
 -- Instrument Status packet includes optional battery status, detector voltage,
 -- and detector temperature.
 
-sgInstrumentStatus InstrumentStatus ::= {
+sgInstrumentStatus PacketType ::= status : {
     instrumentStatusPacketNumber 1,
     timeInformationInstrumentStatus
     {
-        relativeTime 1200,
+        relativeTime 1200
     },
     instrumentStatusInformation
     {
@@ -26,8 +26,5 @@ sgInstrumentStatus InstrumentStatus ::= {
             detectorGain "5204",
             detectorHealth TRUE
         }
-    },
-    endInstrumentStatusPacket 11001110
+    }
 }
-
-PacketType status ::= sgInstrumentStatus

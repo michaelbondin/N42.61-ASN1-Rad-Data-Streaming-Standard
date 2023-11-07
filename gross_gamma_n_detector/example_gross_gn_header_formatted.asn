@@ -1,0 +1,36 @@
+-- Example header packet for an instrument with 2 detectors, 1 gross gamma
+-- counts and 1 gross neutron counts, abbreviated "GN".
+-- Packet quantities populated with arbitrary data.
+
+streamedPacket StreamedPacket ::= header : {
+    timeInformationHeader {
+        timeStampZero utc-DATE-TIME-FRACTIONAL : "2023-03-20T15:23:27.341Z",
+        radiationDataPacketTransmissionRate 2.0 },
+    instrumentInformationHeader {
+        instrumentName "GN1",
+        instrumentDescription "Sample Gross Gamma-Neutron Counts Detectors",
+        instrumentManufacturer "Nuclear Detection Company",
+        instrumentModel "Basic Gamma-Neutron Instrument 1.00",
+        instrumentSerialNumber "AAA-0001",
+        numberOfDetectors 2 },
+    detectorsListHeader {
+        { detectorID 0,
+          detectorType grossGamma,
+          detectorKind naI,
+          detectorManufacturer "Nuclear Detection Company",
+          detectorModel "G340",
+          exposureCoeff 7.5,
+          backgroundSubtraction TRUE,
+          calibration {
+            calibrationTime utc-DATE-TIME-FRACTIONAL : 
+            "2023-03-20T09:23:27.341Z" } },
+        { detectorID 1,
+          detectorType grossNeutron,
+          detectorKind he3,
+          detectorDescription "Sample Gross Neutron Counts Detector",
+          detectorManufacturer "Radiation Counting Enterprise",
+          detectorModel "N2",
+          detectorSerialNumber "N2-00000001",
+          doseConversionCoeff 10 } 
+      }
+}

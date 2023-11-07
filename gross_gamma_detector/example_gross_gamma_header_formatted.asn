@@ -1,25 +1,18 @@
 streamedPacket StreamedPacket ::= header : {
-    timeInformationHeader 
-    {
-        timeStampZero utc-DATE-TIME-FRACTIONAL : "2022-07-12T09:49:01.649Z"
-    },
-    instrumentInformationHeader 
-    {
+    timeInformationHeader {
+        timeStampZero utc-DATE-TIME-FRACTIONAL : "2022-07-12T09:49:01.649Z" },
+    instrumentInformationHeader {
         instrumentName "Sample Gross Gamma Counts Detector",
         instrumentManufacturer "ANSI",
         instrumentModel "Basic Gamma 1.00",
-        instrumentSerialNumber "GG-00000001"
-    },
-    detectorsListHeader
-    {
-        {
-            detectorID 0,
-            detectorType 0,
-            exposureCoeff 7.5,
-            spectrumCompression FALSE,
-            backgroundSubtraction FALSE,
-            numberOfMCAChannels 0
-        }
+        instrumentSerialNumber "GG-00000001" },
+    detectorsListHeader {
+        { detectorID 0,
+          detectorType 0,
+          exposureCoeff 7.5,
+          spectrumCompression FALSE,
+          backgroundSubtraction FALSE,
+          numberOfMCAChannels 0 }
     }
 }
 

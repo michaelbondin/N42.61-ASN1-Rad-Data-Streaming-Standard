@@ -5,16 +5,27 @@
 -- Instrument Status packet includes optional instrument temperature,
 -- battery status, detector voltage, and detector temperature.
 
-grossGNInstrumentStatus InstrumentStatus ::= {
-  packetNumber 2,
-  relativeTime 1.05,
-  instrumentTemperature 22.7,
-  batteryStatus 75,
-  detectorStatusList {{detectorID 0, detectorVoltage 1500,
-                       detectorTemperature 32},
-                      {detectorID 1, detectorVoltage 1900,
-                       detectorTemperature 31}
+streamedPacket StreamedPacket ::= instrumentStatus : {
+  instrumentStatusPacketNumber 1,
+  timeInformationInstrumentStatus
+  {
+    relativeTime 108662
+  },
+  instrumentStatusInformation 
+  {
+    instrumentPower instrumentBatteryVoltage : 23.81
+  },
+  detectorsListInformationStatus
+  {
+    {
+      detectorID 0,
+      detectorVoltage 29.41,
+      detectorGain 2200000
+    },
+    {
+      detectorID 1,
+      detectorVoltage 29.41,
+      detectorHealth TRUE
+    }
   }
 }
-
-PacketType status ::= grossGNInstrumentStatus

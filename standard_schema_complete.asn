@@ -9,12 +9,12 @@ StandardSpecification DEFINITIONS AUTOMATIC TAGS ::= BEGIN
 		local-difference-DATE-TIME-FRACTIONAL TIME(SETTINGS "Basic=Date-Time Date=YMD Time=HMSF3 Local-or-UTC=LD"),
 		...}
 
-	PacketType ::= CHOICE
+	StreamedPacket ::= CHOICE
 		{
-		headerpacket Header,
-		status InstrumentStatus,
-		data RadiationData,
-		footerpacket Footer,
+		header Header,
+		instrumentStatus InstrumentStatus,
+		radiationData RadiationData,
+		footer Footer,
 		...}
 
 	-- Begin Header --
@@ -100,7 +100,7 @@ StandardSpecification DEFINITIONS AUTOMATIC TAGS ::= BEGIN
 			spectrumCompression BOOLEAN OPTIONAL,
 			backgroundSubtraction BOOLEAN OPTIONAL,
 			numberOfMCAChannels INTEGER OPTIONAL,
-			calibration SEQUENCE
+			energyCalibration SEQUENCE
 			{
 				calibrationTemperaturesList SEQUENCE OF INTEGER OPTIONAL,
 				calibrationEnergiesList SEQUENCE OF REAL OPTIONAL,
@@ -116,7 +116,6 @@ StandardSpecification DEFINITIONS AUTOMATIC TAGS ::= BEGIN
 			} OPTIONAL,
 			...
 		},
-		endHeaderPacket BIT STRING OPTIONAL,
 		...
 	}
 	-- End Header --
@@ -152,12 +151,11 @@ StandardSpecification DEFINITIONS AUTOMATIC TAGS ::= BEGIN
 			detectorModel UTF8String OPTIONAL,
 			detectorSerialNumber UTF8String OPTIONAL,
 			detectorVoltage REAL OPTIONAL,
-			detectorGain UTF8String OPTIONAL,
+			detectorGain REAL OPTIONAL,
 			detectorTemperature INTEGER OPTIONAL,
 			detectorHealth BOOLEAN OPTIONAL,
 			...
 		},
-		endInstrumentStatusPacket BIT STRING OPTIONAL,
 		...
 	}
 	-- End Instrument Status --
@@ -171,7 +169,18 @@ StandardSpecification DEFINITIONS AUTOMATIC TAGS ::= BEGIN
 			relativeTime INTEGER,
 			accumulationTime INTEGER,
 			timeStamp DATE-TIME-FRACTIONAL OPTIONAL,
-			instrumentLocation SEQUENCE OF REAL OPTIONAL,
+			instrumentLocation SEQUENCE 
+			{
+				latitude REAL,
+				longitude REAL,
+				elevation REAL OPTIONAL,
+				azimuth REAL OPTIONAL,
+				inclination REAL OPTIONAL,
+				roll REAL OPTIONAL,
+				horizontalAccuracy REAL OPTIONAL,
+				verticalAccuracy REAL OPTIONAL,
+				...
+			} OPTIONAL,
 			...
 		},
 		detectorsListRadiationData SEQUENCE OF detectorRadiationData SEQUENCE
@@ -195,8 +204,16 @@ StandardSpecification DEFINITIONS AUTOMATIC TAGS ::= BEGIN
 				liveTime REAL OPTIONAL,
 				identificationResults SEQUENCE OF identifiedMaterial SEQUENCE
 				{
-					identifiedRadionuclide OCTET STRING OPTIONAL,
-					category UTF8String OPTIONAL,
+					identifiedRadionuclide INTEGER OPTIONAL,
+					category ENUMERATED 
+					{
+						industrial	(0),
+						medical		(1),
+						norm 		(2),
+						snm 		(3),
+						other 		(4),
+						...
+					} OPTIONAL,
 					confidenceLevel INTEGER OPTIONAL,
 					...
 				} OPTIONAL,
@@ -204,7 +221,6 @@ StandardSpecification DEFINITIONS AUTOMATIC TAGS ::= BEGIN
 			} OPTIONAL,
 			...
 		},
-		endRadiationDataPacket BIT STRING OPTIONAL,
 		...
 	}
 	-- End Radiation Data --
@@ -219,7 +235,6 @@ StandardSpecification DEFINITIONS AUTOMATIC TAGS ::= BEGIN
 		},
 		lastInstrumentStatusPacketNumber INTEGER OPTIONAL,
 		lastRadiationDataPacketNumber INTEGER OPTIONAL,
-		endFooterPacket BIT STRING OPTIONAL,
 		...
 	}
 	-- End Footer --

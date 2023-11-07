@@ -3,14 +3,11 @@
 -- Packet quantities populated with arbitrary data for illustration.
 -- Instrument transmits counts, count rate, and exposure rate.
 
-grossGNfooter Footer ::= {
+streamedPacket StreamedPacket ::= footer : {
   timeInformationFooter
   {
-      relativeTime 600000,
-      timeStamp utc-DATE-TIME-FRACTIONAL : "2023-03-20T15:33:27.341Z",
+      relativeTime 197412,
+      timeStamp utc-DATE-TIME-FRACTIONAL : "2023-05-04T13:12:00.341Z"
   },
-  lastRadiationDataPacketNumber 3,
-  endFooterPacket 01010101,
+  lastRadiationDataPacketNumber 55
 }
-
-PacketType footerpacket ::= grossGNfooter

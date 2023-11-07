@@ -10,36 +10,25 @@
 -- The second field (byte) identifies the atomic mass (A), which ranges from 1
 -- to 255. A detailed table is included in the standard.
 
-sgRIIDInstrumentStatus InstrumentStatus ::= {
-	packetNumber 2,
-	relativeTime 1.05,
-	batteryStatus 75,
-	detectorStatusList {{detectorID 0, detectorVoltage 1500,
-						   detectorTemperature 22.7}
-	}
+streamedPacket StreamedPacket ::= instrumentStatus : {
+    instrumentStatusPacketNumber 1,
+    timeInformationInstrumentStatus
+    {
+        relativeTime 1200,
+        timeStamp utc-DATE-TIME-FRACTIONAL : "2023-03-20T15:24:27.341Z"
+    },
+    instrumentStatusInformation
+    {
+        instrumentPower instrumentBatteryVoltage : 12.6,
+        instrumentHealth TRUE,
+        instrumentSelfCalibration TRUE
+    },
+    detectorsListInformationStatus 
+    {
+        {
+            detectorID 0,
+            detectorVoltage -1300.0,
+            detectorGain 5204
+        }
+    }
 }
-
-PacketType status ::= sgRIIDInstrumentStatus
-
-{
-		instrumentStatusPacketNumber 1,
-		timeInformationInstrumentStatus
-		{
-			relativeTime 1200,
-		},
-		instrumentStatusInformation
-		{
-			instrumentTemperature 23,
-			instrumentPower instrumentBatteryVoltage : 12.6,
-			instrumentHealth TRUE,
-			instrumentSelfCalibration TRUE
-		},
-		detectorsListInformationStatus {
-		{
-			detectorID 0,
-			detectorVoltage -1300.0,
-			detectorGain "5204",
-			detectorHealth TRUE
-		},
-		endInstrumentStatusPacket 10010000
-	}

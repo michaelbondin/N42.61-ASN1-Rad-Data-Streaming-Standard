@@ -3,14 +3,12 @@
 -- Packet quantities populated with arbitrary data for illustration.
 -- Instrument transmits counts, count rate, exposure rate, and gamma spectrum.
 
-sgFooter Footer ::= {
+sgFooter PacketType ::= footerpacket : {
    timeInformationFooter
     {
-      relativeTime 3600
+      relativeTime 18000,
+      timeStamp utc-DATE-TIME-FRACTIONAL : "2023-03-20T15:23:29.341Z"
     },
-    lastInstrumentStatusPacketNumber 1,
-    lastRadiationDataPacketNumber 1,
-    endFooterPacket 10101010
+    lastInstrumentStatusPacketNumber 2,
+    lastRadiationDataPacketNumber 120
 }
-
-PacketType footerpacket ::= sgFooter
